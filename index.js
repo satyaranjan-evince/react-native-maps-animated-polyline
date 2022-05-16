@@ -10,11 +10,13 @@ export default class AnimatedPolyline extends Component {
     };
   }
   componentDidMount() {
-    this._animate(this.props.coordinates);
+    setTimeout(() =>
+      this._animate(this.props.coordinates), this.props.delay || 0);
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.coordinates !== this.props.coordinates) {
-      this._animate(nextProps.coordinates);
+      setTimeout(() =>
+        this._animate(nextProps.coordinates), nextProps.delay || 0);
     }
   }
   shouldComponentUpdate(nextProps, nextState) {
