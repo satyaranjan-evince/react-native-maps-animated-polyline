@@ -10,11 +10,13 @@ export default class AnimatedPolyline extends Component {
     };
   }
   componentDidMount() {
-    this._animate(this.props.coordinates);
+    setTimeout(() =>
+      this._animate(this.props.coordinates), this.props.delay || 0);
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.coordinates !== this.props.coordinates) {
-      this._animate(nextProps.coordinates);
+      setTimeout(() =>
+        this._animate(nextProps.coordinates), nextProps.delay || 0);
     }
   }
   shouldComponentUpdate(nextProps, nextState) {
@@ -28,7 +30,10 @@ export default class AnimatedPolyline extends Component {
     const len = allCoords.length;
     let completed = 0;
     this.state.coords = [];
-    const steps = parseInt((allCoords.length / 20), 10);
+    let steps = parseInt((allCoords.length / 20), 10);
+    if (steps == 0) {
+      steps = steps + 1
+    }
     clearInterval(this.interval);
     this.interval = setInterval(() => {
       const coords = this.state.coords.slice(0);
